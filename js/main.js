@@ -10,14 +10,17 @@ $(function() {
 
     function getPointsFromString(text, callback) {
         var points = [];
-        ctx.color = 'black';
-        ctx.font = 'bold 400px sans-serif';
-        ctx.fillText(text, 0, 400, canvasWidth);
 
+        ctx.color = '#ffff77';
+        ctx.font = 'bold 400px sans-serif';
+        var imgwidth = ctx.measureText(text).width;
+        ctx.fillText(text, 0, 400, canvasWidth);
+        imgwidth = imgwidth > canvasWidth ? canvasWidth : imgwidth;
+        
         var imagedata = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
         var density = 15;
-        for (var x=0; x < imagedata.width; x+=Math.floor(Math.random()*density)) {
-            for (var y=0; y < imagedata.height; y+=Math.floor(Math.random()*density)) {
+        for (var x=0; x < imagedata.width; x+=density) {
+            for (var y=0; y < imagedata.height; y+=density) {
                 var index = (y*4)*imagedata.width + x*4;
                 
                 var r = imagedata.data[index];
@@ -26,8 +29,15 @@ $(function() {
                 var a = imagedata.data[index+3];
                 
                 if (r|g|b|a) {
-                    if ((Math.random()*100) > 50)
-                        points.push(new Point(x, y, 0.0, Math.floor(Math.random()*density) + 10, "#000000"));
+                    if ((Math.random()*100) < 50) {
+                        var c = Math.floor((y / canvasWidth) * 255);
+                        var p = new Point(x + canvasWidth/2 - imgwidth/2,y,
+                                          0.0, 
+                                          density*2, 
+                                          "rgb("+c+","+c+","+c+")");
+                        
+                        points.push(p);
+                    }
                 }
             }
         }
@@ -46,15 +56,17 @@ $(function() {
         img.src = image_to_draw;
       
         img.onload = function() { 
-            bufctx.drawImage(img, 0, 0); 
 
-            var imagedata = bufctx.getImageData(0,0, img.width, img.height);
+            var ratio = bufcan.width / Math.max(img.width, img.height);
+            bufctx.scale(ratio, ratio);
+            bufctx.drawImage(img, 0, 0, img.width, img.height); 
 
-            var density  = Math.floor(Math.max(img.width, img.height)/30);
+            var imagedata = bufctx.getImageData(0, 0, img.width * ratio, img.height * ratio);
+            var density  = 10;
 
-            for (var x=0; x < imagedata.width; x+=Math.floor(Math.random()*density)) {
+            for (var x=0; x < imagedata.width; x+=density) {
 
-                for (var y=0; y < imagedata.height; y+=Math.floor(Math.random()*density)) {
+                for (var y=0; y < imagedata.height; y+=density) {
 
                     var index = (y*4)*imagedata.width + x*4;
                     
@@ -63,8 +75,21 @@ $(function() {
                     var b = imagedata.data[index+2];
                     var a = imagedata.data[index+3];
                     if (r|g|b|a) {
-                        if ((Math.random()*100) > 40)                        
-                            points.push(new Point(x, y, 0.0, (255*3 - (r+g+b))/(255*3) *density/2, "rgb("+r+","+g+","+b+")"));
+                        if ((Math.random()*100) > 30) {
+                            var p = new Point(x+canvasWidth/2 - (img.width * ratio) /2, y+canvasHeight/2 - (img.height * ratio) /2, 
+                                            0.0, 
+                                            (255*3 - (r+g+b))/(255*3) * density * 2, 
+                                            "rgb("+r+","+g+","+b+")");
+		            p.draw = function() {
+			        ctx.fillStyle = this.colour;
+			        ctx.beginPath();
+			        ctx.fillRect(this.curPos.x, this.curPos.y, this.radius, this.radius);
+		            };
+                            
+                          points.push(p);
+                        }
+                          
+
                     }
                 }
             }
@@ -73,8 +98,6 @@ $(function() {
     }
 
     function postInit(points) {
-        ctx.globalAlpha = "1.0";
-        ctx.globalCompositeOperation = 'source-over';
         pointCollection = new PointCollection();
         pointCollection.points = points;
         initEventListeners();
@@ -136,12 +159,14 @@ $(function() {
 		if (tmpCanvas.getContext == null) {
 			return; 
 		};
-		
+
 		ctx = tmpCanvas.getContext('2d');
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-		
+
+
 		if (pointCollection)
 			pointCollection.draw();
+
 	};
 	
 	function update() {		

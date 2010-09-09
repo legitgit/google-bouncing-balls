@@ -4,19 +4,22 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/main.css" />
   <script type="text/javascript" src="js/jquery.min.js"></script>
-  <?php if (!$_POST['explodey_string'] && !$_FILES['explodey_image']): ?>
+  <?php if (!$_GET['explodey_string'] && !$_FILES['explodey_image']): ?>
 
   <body>    
+    <div id="main_page">
     <h1>Text Explodifier</h1>
-    <form method="post" action="" >
+    <form method="get" action="" >
       <input type="text" name="explodey_string">
       <input type="submit" value="Explodify Text">
     </form>
+    
+    <h1 style="margin-top:50px;">Image Explodifier</h1>
     <form method="post" action="" enctype="multipart/form-data">
       <input type="file" name="explodey_image">
       <input type="submit" value="Explodify Image">
     </form>
-
+    </div>
 
     <?php else: ?>
     <?php 
@@ -30,7 +33,7 @@
        ?>
 
     <script type="text/javascript">
-      var text_to_draw = <?= $_POST['explodey_string'] ? '"'.$_POST['explodey_string'].'"' : 'false' ?>;
+      var text_to_draw = <?= $_GET['explodey_string'] ? '"'.$_GET['explodey_string'].'"' : 'false' ?>;
       var image_to_draw = <?= $_FILES ? '"uploads/'.$_FILES['explodey_image']['name'].'"' : 'false' ?>;
     </script>
     
@@ -39,7 +42,7 @@
   <body >
     <img id="i" src="<?= 'uploads/'.$_FILES['explodey_image']['name'] ?>" style="display:none">
     <canvas id="c" width="400" height="400"></canvas>
-    <canvas id="buffercan" width="1000" height="1000" style="display:none"></canvas>
+    <canvas id="buffercan" width="600" height="600" style="display:none"></canvas>
 
     <?php endif; ?>
     <p id="attribution">Originally made by <a href="http://github.com/robhawkes/google-bouncing-balls">Rob Hawkes</a> modified by <a href="http://github.com/clawtros/google-bouncing-balls">Adam Benzan</a></p>
