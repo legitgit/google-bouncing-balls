@@ -29,15 +29,13 @@ $(function() {
                 var a = imagedata.data[index+3];
                 
                 if (r|g|b|a) {
-                    if ((Math.random()*100) < 50) {
                         var c = Math.floor((y / canvasWidth) * 255);
                         var p = new Point(x + canvasWidth/2 - imgwidth/2,y,
                                           0.0, 
-                                          density*2, 
+                                          density/2, 
                                           "rgb("+c+","+c+","+c+")");
                         
                         points.push(p);
-                    }
                 }
             }
         }
