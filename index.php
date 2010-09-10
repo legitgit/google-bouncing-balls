@@ -27,6 +27,12 @@
     <h1>Text Explodifier</h1>
     <form method="get" action="" >
       <input type="text" name="explodey_string">
+      <select name="density">
+        <option value="15">Default Density</option>
+        <option value="25">Huge</option>
+        <option value="5">Small</option>
+        <option value="1">CPU Destroying</option>
+      </select>
       <input type="submit" value="Explodify Text">
     </form>
     
@@ -34,6 +40,14 @@
     <h2><?= $errors ?></h2>
     <form method="post" action="" enctype="multipart/form-data">
       <input type="file" name="explodey_image">
+      <select name="density">
+        <option value="10">Default Density</option>
+        <option value="20">Huge</option>
+        <option value="5">Small</option>
+        <option value="3">Tiny</option>
+        <option value="1">CPU Destroying</option>
+      </select>
+
       <input type="submit" value="Explodify Image">
     </form>
     </div>
@@ -43,6 +57,7 @@
     <script type="text/javascript">
       var text_to_draw = <?= $_GET['explodey_string'] ? '"'.$_GET['explodey_string'].'"' : 'false' ?>;
       var image_to_draw = <?= $_FILES ? '"uploads/'.$_FILES['explodey_image']['name'].'"' : 'false' ?>;
+      var densityOverride = <?= (int)$_REQUEST['density'] ?>;
     </script>
     
     <script type="text/javascript" src="js/main.js"></script>

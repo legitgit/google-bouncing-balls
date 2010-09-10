@@ -18,7 +18,7 @@ $(function() {
         imgwidth = imgwidth > canvasWidth ? canvasWidth : imgwidth;
         
         var imagedata = ctx.getImageData(0, 0, imgwidth, canvasHeight);
-        var density = 15;
+      var density = densityOverride ? densityOverride : 15;
         for (var x=0; x < imagedata.width; x+=density) {
             for (var y=0; y < imagedata.height; y+=density) {
                 var index = (y*4)*imagedata.width + x*4;
@@ -60,8 +60,8 @@ $(function() {
             bufctx.drawImage(img, 0, 0, img.width, img.height); 
 
             var imagedata = bufctx.getImageData(0, 0, img.width * ratio, img.height * ratio);
-            var density  = 10;
 
+          var density = densityOverride ? densityOverride : 10;
             for (var x=0; x < imagedata.width; x+=density) {
 
                 for (var y=0; y < imagedata.height; y+=density) {
