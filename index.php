@@ -4,13 +4,13 @@
         
        $target_path = str_replace('/index.php','',$_SERVER['SCRIPT_FILENAME'])."/uploads/";
        $target_path = $target_path . basename( $_FILES['explodey_image']['name']); 
-       if(move_uploaded_file($_FILES['explodey_image']['tmp_name'], $target_path)) {
-         $imsize = getimagesize($target_path);
-         if (!$imsize) {
-          unlink($target_path);
+       $imsize = getimagesize($_FILES['explodey_image']['tmp_name']);
+       if (!$imsize) {
           $errors = "Not an image!";
-         }
-       }
+       } else {
+        if(move_uploaded_file($_FILES['explodey_image']['tmp_name'], $target_path)) {
+        }
+      }
      }
      
 ?>
