@@ -17,7 +17,7 @@ $(function() {
         ctx.fillText(text, 0, 400, canvasWidth);
         imgwidth = imgwidth > canvasWidth ? canvasWidth : imgwidth;
         
-        var imagedata = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+        var imagedata = ctx.getImageData(0, 0, imgwidth, canvasHeight);
         var density = 15;
         for (var x=0; x < imagedata.width; x+=density) {
             for (var y=0; y < imagedata.height; y+=density) {
@@ -148,7 +148,7 @@ $(function() {
 		draw();
 		update();
 		
-		setTimeout(function() { timeout() }, 30);
+		setTimeout(function() { timeout() }, 10);
 	};
 	
 	function draw() {
@@ -286,10 +286,16 @@ $(function() {
 		};
 		
 		this.draw = function() {
-			ctx.fillStyle = this.colour;
-			ctx.beginPath();
-			ctx.arc(this.curPos.x, this.curPos.y, this.radius, 0, Math.PI*2, true);
-			ctx.fill();
+		    ctx.fillStyle = this.colour;
+		    ctx.beginPath();
+		    ctx.arc(this.curPos.x, this.curPos.y, this.radius, 0, Math.PI*2, true);
+		    ctx.fill();
+/*
+                    ctx.beginPath();
+                    ctx.moveTo(this.curPos.x, this.curPos.y);
+		    ctx.lineTo(this.originalPos.x, this.originalPos.y);
+                    ctx.stroke();
+*/
 		};
 	};
 	

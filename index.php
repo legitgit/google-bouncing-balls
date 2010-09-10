@@ -1,10 +1,26 @@
+<?php 
+  $errors = false;
+     if ($_FILES) {
+        
+       $target_path = str_replace('/index.php','',$_SERVER['SCRIPT_FILENAME'])."/uploads/";
+       $target_path = $target_path . basename( $_FILES['explodey_image']['name']); 
+       if(move_uploaded_file($_FILES['explodey_image']['tmp_name'], $target_path)) {
+         $imsize = getimagesize($target_path);
+         if (!$imsize) {
+          unlink($target_path);
+          $errors = "Not an image!";
+         }
+       }
+     }
+     
+?>
 <!DOCTYPE html>
 <html lang="en">
   <title>Google's Bouncing Balls | HTML5 Canvas </title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/main.css" />
   <script type="text/javascript" src="js/jquery.min.js"></script>
-  <?php if (!$_GET['explodey_string'] && !$_FILES['explodey_image']): ?>
+  <?php if (!$_GET['explodey_string'] && !$_FILES['explodey_image'] || $errors): ?>
 
   <body>    
     <div id="main_page">
@@ -15,6 +31,7 @@
     </form>
     
     <h1 style="margin-top:50px;">Image Explodifier</h1>
+    <h2><?= $errors ?></h2>
     <form method="post" action="" enctype="multipart/form-data">
       <input type="file" name="explodey_image">
       <input type="submit" value="Explodify Image">
@@ -22,15 +39,6 @@
     </div>
 
     <?php else: ?>
-    <?php 
-       if ($_FILES) {
-       $target_path = str_replace('/index.php','',$_SERVER['SCRIPT_FILENAME'])."/uploads/";
-       $target_path = $target_path . basename( $_FILES['explodey_image']['name']); 
-       if(move_uploaded_file($_FILES['explodey_image']['tmp_name'], $target_path)) {
-       $imsize = getimagesize($target_path);
-       }
-       }
-       ?>
 
     <script type="text/javascript">
       var text_to_draw = <?= $_GET['explodey_string'] ? '"'.$_GET['explodey_string'].'"' : 'false' ?>;
