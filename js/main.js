@@ -148,7 +148,7 @@ $(function() {
 		draw();
 		update();
 		
-		setTimeout(function() { timeout() }, 10);
+		setTimeout(function() { timeout() }, 30);
 	};
 	
 	function draw() {
