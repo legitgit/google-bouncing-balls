@@ -74,8 +74,8 @@ $(function() {
                     var a = imagedata.data[index+3];
                     if (r|g|b|a) {
                             var p = new Point(x+canvasWidth/2 - (img.width * ratio) /2, y+canvasHeight/2 - (img.height * ratio) /2, 
-                                            0.0, 
-                                            (255*3 - (r+g+b))/(255*3) * density * 2, 
+                                            0.0,
+                                            density,
                                             "rgb("+r+","+g+","+b+")");
 		            p.draw = function() {
 			        ctx.fillStyle = this.colour;
