@@ -73,7 +73,6 @@ $(function() {
                     var b = imagedata.data[index+2];
                     var a = imagedata.data[index+3];
                     if (r|g|b|a) {
-                        if ((Math.random()*100) > 30) {
                             var p = new Point(x+canvasWidth/2 - (img.width * ratio) /2, y+canvasHeight/2 - (img.height * ratio) /2, 
                                             0.0, 
                                             (255*3 - (r+g+b))/(255*3) * density * 2, 
@@ -85,7 +84,6 @@ $(function() {
 		            };
                             
                           points.push(p);
-                        }
                           
 
                     }
