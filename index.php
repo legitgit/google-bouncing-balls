@@ -13,8 +13,7 @@
       }
      }
      
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
   <title>Google's Bouncing Balls | HTML5 Canvas </title>
   <meta charset="utf-8">
@@ -31,7 +30,7 @@
         <option value="15">Default Density</option>
         <option value="25">Huge</option>
         <option value="5">Small</option>
-        <option value="1">CPU Destroying</option>
+        <option value="2">CPU Destroying</option>
       </select>
       <input type="submit" value="Explodify Text">
     </form>
@@ -45,7 +44,7 @@
         <option value="20">Huge</option>
         <option value="5">Small</option>
         <option value="3">Tiny</option>
-        <option value="1">CPU Destroying</option>
+        <option value="2">CPU Destroying</option>
       </select>
 
       <input type="submit" value="Explodify Image">
@@ -55,7 +54,7 @@
     <?php else: ?>
 
     <script type="text/javascript">
-      var text_to_draw = <?= $_GET['explodey_string'] ? '"'.$_GET['explodey_string'].'"' : 'false' ?>;
+      var text_to_draw = <?= $_GET['explodey_string'] ? '"'.strip_tags($_GET['explodey_string']).'"' : 'false' ?>;
       var image_to_draw = <?= $_FILES ? '"uploads/'.$_FILES['explodey_image']['name'].'"' : 'false' ?>;
       var densityOverride = <?= (int)$_REQUEST['density'] ?>;
     </script>
